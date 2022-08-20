@@ -1,29 +1,35 @@
-TARGET = ./main.out
-HDRS_DIR = project/include
+.PHONY: all build rebuild check test memtest clean coverage_tests
 
-# XXX: Don't forget backslash at the end of any line except the last one
-SRCS = \
-       project/src/main.c \
-       project/src/utils.c \
-       project/src/check_num.c \
-       project/src/my_rec.c
+all: clean check build test coverage_tests memtest
 
-.PHONY: all build rebuild check test clean
+BUILD_DIRECTORY = build
 
-all: clean check test
+TARGET_TEST = ./gtest
 
-$(TARGET): $(SRCS) 
-	$(CC) -Wpedantic -Wall -Wextra -Werror -I $(HDRS_DIR) -o $(TARGET) $(CFLAGS) $(SRCS)
+TARGET_COVERAGE = [789]
 
-build: $(TARGET)
+clean:
+	rm -rf build coverage-report valgrind.log test.log coverage.info
+
+check:
+	./run_linters.sh
+
+build:
+	./run_build.sh
 
 rebuild: clean build
 
-check:
-	./linters/run.sh
+test:
+	./run_build.sh
+	./build/gtest/${TARGET_TEST}
 
-test: $(TARGET)
-	./btests/run.sh $(TARGET)
+coverage_tests:
+	./run_build.sh
+	./build/gtest/${TARGET_TEST}
+	./run_coverage.sh $(TARGET_COVERAGE)
 
-clean:
-	rm -rf $(TARGET)
+memtest:
+	./run_build.sh
+	./run_memtest.sh ./build/gtest/${TARGET_TEST}
+
+
