@@ -1,13 +1,13 @@
 .PHONY: all build clear launch build_int
 
-all: clear build launch
+all: clear build
 
-TARGET = 7
+TARGET = 1
 
-TARGET_IN = 7
+TARGET_IN = 1
 
 build:
-	g++ --std=gnu++20 interview_contest/$(TARGET)/$(TARGET_IN).cpp -o task
+	g++ --std=gnu++20 intern_day/$(TARGET)/$(TARGET_IN).cpp -o task
 
 launch:
 	./task
