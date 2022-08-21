@@ -23,8 +23,6 @@ struct WeightedListGraph {
 
     void PrintTable() const;
 
-    void CreateTable(const std::string &first);
-
 private:
     size_t count_edges;
 
@@ -59,25 +57,19 @@ size_t WeightedListGraph::VerticesCount() const {
 
 
 void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &next) {
-    if (table.empty()) {
+    const auto node_table_from = std::find(table.begin(), table.end(), first);
+
+    size_t index_from = 0;
+
+    if (node_table_from == table.end()) {
         table.push_back(first);
 
         adjacency_lists.push_back({});
 
-        if (next != first) {
-            table.push_back(next);
-            adjacency_lists.push_back({});
-
-            AddEdge(0, 1);
-        } else {
-            AddEdge(0, 0);
-        }
-
-        return;
+        index_from = table.size() - 1;
+    } else {
+        index_from = std::distance(table.begin(), node_table_from);
     }
-    const auto node_table_from = std::find(table.begin(), table.end(), first);
-
-    const size_t index_from = std::distance(table.begin(), node_table_from);
 
     const auto node_table_to = std::find(table.begin(), table.end(), next);
 
@@ -89,15 +81,9 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
         adjacency_lists.push_back({});
 
         index_to = table.size() - 1;
-
-        //  std::cout << index_from << " " << index_to << std::endl;
-
-        AddEdge(index_from, index_to);
-
-        return;
+    } else {
+        index_to = std::distance(table.begin(), node_table_to);
     }
-
-    index_to = std::distance(table.begin(), node_table_to);
 
     const auto index_edge = CheckEdge(index_from, index_to);
 
@@ -108,40 +94,13 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
     }
 }
 
-void WeightedListGraph::CreateTable(const std::string &first) {
-    const auto node_table_from = std::find(table.begin(), table.end(), first);
-
-    if (node_table_from == table.end()) {
-        table.push_back(first);
-
-        adjacency_lists.push_back({});
-    }
-}
-
-
 WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     count_edges = 0;
 
     for (const auto &str: arr_str) {
-        std::string buf_first;
-
-        std::string buf_next;
-
-        for (size_t i = 0; i < str.size() - 3; ++i) {
-            buf_first = str.substr(i, 3);
-
-            buf_next = str.substr(i + 1, 3);
-
-            WorkSubstr(buf_first, buf_next);
+        for (size_t i = 0; i < str.size() - 3; i += 1) {
+            WorkSubstr(str.substr(i, 3), str.substr(i + 1, 3));
         }
-
-//        if (str != *arr_str.end()) {
-//            buf_first = str.substr(0, 3);
-//
-//            WorkSubstr(buf_next, buf_next);
-//        }
-
-        //  WorkSubstr(buf_next, buf_next);
     }
 
     Print();
