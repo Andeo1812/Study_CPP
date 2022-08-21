@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 struct WeightedListGraph {
     ~WeightedListGraph() = default;
@@ -27,6 +28,9 @@ private:
     size_t count_edges;
 
     std::vector <std::string> table;
+
+    std::map <size_t, std::string> index_map;
+    std::map <std::string, size_t> str_map;
 
     std::vector <std::vector<std::pair <size_t, size_t>>> adjacency_lists;
 };
@@ -57,32 +61,42 @@ size_t WeightedListGraph::VerticesCount() const {
 
 
 void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &next) {
-    const auto node_table_from = std::find(table.begin(), table.end(), first);
+    const auto node_table_from = str_map.find(first);
 
     size_t index_from = 0;
 
-    if (node_table_from == table.end()) {
+    if (node_table_from == str_map.end()) {
         table.push_back(first);
+
+        size_t size = table.size() - 1;
+
+        str_map.insert(std::make_pair(first, size));
+        index_map.insert({size, first});
 
         adjacency_lists.push_back({});
 
-        index_from = table.size() - 1;
+        index_from = size;
     } else {
-        index_from = std::distance(table.begin(), node_table_from);
+        index_from = index_map.find(node_table_from->second )->first;
     }
 
-    const auto node_table_to = std::find(table.begin(), table.end(), next);
+    const auto node_table_to = str_map.find(next);
 
     size_t index_to = 0;
 
-    if (node_table_to == table.end()) {
+    if (node_table_to == str_map.end()) {
         table.push_back(next);
+
+        size_t size = table.size() - 1;
+
+        str_map.insert({next, size});
+        index_map.insert({size, next});
 
         adjacency_lists.push_back({});
 
-        index_to = table.size() - 1;
+        index_to = size;
     } else {
-        index_to = std::distance(table.begin(), node_table_to);
+        index_to = index_map.find(node_table_to->second)->first;
     }
 
     const auto index_edge = CheckEdge(index_from, index_to);
@@ -97,6 +111,9 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
 WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     count_edges = 0;
 
+    str_map = {};
+    index_map = {};
+
     for (const auto &str: arr_str) {
         for (size_t i = 0; i < str.size() - 3; i += 1) {
             WorkSubstr(str.substr(i, 3), str.substr(i + 1, 3));
@@ -104,6 +121,8 @@ WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     }
 
     Print();
+
+    //  PrintTable();
 }
 
 void WeightedListGraph::PrintTable() const {
