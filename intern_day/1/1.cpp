@@ -119,8 +119,12 @@ void WeightedListGraph::Print() const {
     std::cout << count_edges << std::endl;
 
     for (size_t i = 0; i < adjacency_lists.size(); ++i) {
+        auto str = table[i];
+
         for (size_t j = 0; j < adjacency_lists[i].size(); ++j) {
-            std::cout << table[i] << " " << table[adjacency_lists[i][j].second] << " " << adjacency_lists[i][j].first
+            auto data = adjacency_lists[i][j];
+
+            std::cout << str << " " << table[data.second] << " " << data.first
                       << std::endl;
         }
     }
