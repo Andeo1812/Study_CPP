@@ -1,9 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <climits>
-#include <cassert>
-
 #include <algorithm>
 
 struct WeightedListGraph {
@@ -11,55 +7,41 @@ struct WeightedListGraph {
 
     WeightedListGraph();
 
-    void AddEdge(int from, int to);
+    void AddEdge(const auto &from, const auto &to);
 
-    ssize_t CheckEdge(int from, int to) const;
+    ssize_t CheckEdge(const auto &from, const auto &to) const;
 
-    void UpdateEdge(int from, int to);
+    void UpdateEdge(const auto &from, const auto &to);
 
     size_t VerticesCount() const;
 
-    std::vector <std::pair<int, int>> GetNextVertices(int vertex) const;
+    WeightedListGraph(const std::vector <std::string> &arr_str);
 
-    std::vector <std::pair<int, int>> GetPrevVertices(int vertex) const;
-
-    WeightedListGraph(const std::vector <std::string> arr_str);
-
-    void WorkSubstr(std::string first, std::string next);
+    void WorkSubstr(const std::string &first, const std::string &next);
 
     void Print() const;
 
     void PrintTable() const;
 
-    void CreateTable(std::string word);
+    void CreateTable(const std::string &first, const std::string &next);
 
 private:
     size_t count_edges;
 
     std::vector <std::string> table;
 
-    std::vector <std::vector<std::pair < int, int>>>
-    adjacency_lists;
+    std::vector <std::vector<std::pair <size_t, size_t>>> adjacency_lists;
 };
 
-void WeightedListGraph::AddEdge(int from, int to) {
-    //  std::cout << "add edge " << from << " " << to << " " << adjacency_lists[from].size() << std::endl;
-
-    //  std::cout << table[from] << " " << table[to] << " " << std::endl;
-
+void WeightedListGraph::AddEdge(const auto &from, const auto &to) {
     adjacency_lists[from].push_back({1, to});
-    //  std::cout << "add edge " << adjacency_lists[from].size() << " " << adjacency_lists[from][adjacency_lists[from].size() - 1].second << std::endl;
 
     ++count_edges;
 }
 
-ssize_t WeightedListGraph::CheckEdge(int from, int to) const {
+ssize_t WeightedListGraph::CheckEdge(const auto &from, const auto &to) const {
     for (ssize_t i = 0; i < adjacency_lists[from].size(); ++i) {
-        //  std::cout << "check " << adjacency_lists[from][i].second << " " << i << " " << to << std::endl;
-
         if (adjacency_lists[from][i].second == to) {
-            //  std::cout << "check " << adjacency_lists[from][i].second << " " << i << " " << to << std::endl;
-
             return i;
         }
     }
@@ -67,7 +49,7 @@ ssize_t WeightedListGraph::CheckEdge(int from, int to) const {
     return -1;
 }
 
-void WeightedListGraph::UpdateEdge(int from, int to) {
+void WeightedListGraph::UpdateEdge(const auto &from, const auto &to) {
     ++adjacency_lists[from][to].first;
 }
 
@@ -75,34 +57,8 @@ size_t WeightedListGraph::VerticesCount() const {
     return adjacency_lists.size();
 }
 
-std::vector <std::pair<int, int>> WeightedListGraph::GetNextVertices(int vertex) const {
-    std::vector <std::pair<int, int>> next_vertices(adjacency_lists[vertex].size());
 
-    for (size_t i = 0; i < adjacency_lists[vertex].size(); ++i) {
-        next_vertices[i] = adjacency_lists[vertex][i];
-    }
-
-    return next_vertices;
-}
-
-std::vector <std::pair<int, int>> WeightedListGraph::GetPrevVertices(int vertex) const {
-    std::vector <std::pair<int, int>> prev_vertices;
-
-    for (size_t i = 0; i < adjacency_lists.size(); ++i) {
-        for (const auto &value: adjacency_lists[i]) {
-            if (vertex == value.second) {
-
-                prev_vertices.push_back(adjacency_lists[vertex][i]);
-
-                break;
-            }
-        }
-    }
-
-    return prev_vertices;
-}
-
-void WeightedListGraph::WorkSubstr(std::string first, std::string next) {
+void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &next) {
     auto node_table_from = std::find(table.begin(), table.end(), first);
 
     size_t index_from = std::distance(table.begin(), node_table_from);
@@ -121,62 +77,37 @@ void WeightedListGraph::WorkSubstr(std::string first, std::string next) {
 
 }
 
-void WeightedListGraph::CreateTable(std::string word) {
-    if (!table.empty()) {
-        auto node_table = std::find(table.begin(), table.end(), word);
+void WeightedListGraph::CreateTable(const std::string &first, const std::string &next) {
+    auto node_table_from = std::find(table.begin(), table.end(), first);
 
-        if (node_table == table.end()) {
-            table.push_back(word);
-
-            adjacency_lists.push_back({});
-
-        }
-    } else {
-        table.push_back(word);
+    if (node_table_from == table.end()) {
+        table.push_back(first);
 
         adjacency_lists.push_back({});
     }
 }
 
 
-WeightedListGraph::WeightedListGraph(const std::vector <std::string> arr_str) {
+WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     count_edges = 0;
 
-    for (size_t k = 0; k < arr_str.size(); ++k) {
-        for (size_t i = 0; i < arr_str[k].size() - 2; ++i) {
-            std::string word = arr_str[k].substr(i, 3);
-            CreateTable(word);
-        }
-    }
-
-    //  PrintTable();
-
-    for (size_t k = 0; k < arr_str.size(); ++k) {
-        std::string buf_first;
-
+    for (const auto &str: arr_str) {
         std::string buf_next;
 
-        for (size_t i = 0; i < arr_str[k].size() - 3; ++i) {
-            buf_first = arr_str[k].substr(i, 3);
+        for (size_t i = 0; i < str.size() - 3; ++i) {
+            std::string buf_first = str.substr(i, 3);
 
-            buf_next = arr_str[k].substr(i + 1, 3);
+            buf_next = str.substr(i + 1, 3);
 
-            //  std::cout << buf_first << " " << buf_next << std::endl;
-            //  std::cout << i << std::endl;
+            CreateTable(buf_first, buf_next);
 
             WorkSubstr(buf_first, buf_next);
         }
 
-//        if (k != arr_str.size() - 1) {
-//            buf_first = arr_str[k].substr(0, 3);
-//
-//            WorkSubstr(buf_next, buf_next);
-//        }
+        CreateTable(buf_next, buf_next);
     }
 
     Print();
-
-    //  PrintTable();
 }
 
 void WeightedListGraph::PrintTable() const {
@@ -187,12 +118,11 @@ void WeightedListGraph::PrintTable() const {
 }
 
 void WeightedListGraph::Print() const {
-    std::cout << adjacency_lists.size() << std::endl;
+    std::cout << VerticesCount() << std::endl;
 
     std::cout << count_edges << std::endl;
 
     for (size_t i = 0; i < adjacency_lists.size(); ++i) {
-        //  std::cout << i << std::endl;
         for (size_t j = 0; j < adjacency_lists[i].size(); ++j) {
             std::cout << table[i] << " " << table[adjacency_lists[i][j].second] << " " << adjacency_lists[i][j].first
                       << std::endl;
