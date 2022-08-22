@@ -1,4 +1,4 @@
-#include <iostream>
+include <iostream>
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -9,7 +9,9 @@ struct WeightedListGraph {
     WeightedListGraph();
 
     void AddEdge(const auto &from, const auto &to);
+
     ssize_t CheckEdge(const auto &from, const auto &to) const;
+
     void UpdateEdge(const auto &from, const auto &to);
 
     size_t VerticesCount() const;
@@ -24,6 +26,8 @@ struct WeightedListGraph {
 
 private:
     size_t count_edges;
+
+    std::vector <std::string> table;
 
     std::map <size_t, std::string> index_map;
     std::map <std::string, size_t> str_map;
@@ -62,12 +66,14 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
     size_t index_from = 0;
 
     if (node_table_from == str_map.end()) {
-        adjacency_lists.push_back({});
+        table.push_back(first);
 
-        size_t size = VerticesCount() - 1;
+        size_t size = table.size() - 1;
 
         str_map.insert(std::make_pair(first, size));
         index_map.insert({size, first});
+
+        adjacency_lists.push_back({});
 
         index_from = size;
     } else {
@@ -79,13 +85,14 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
     size_t index_to = 0;
 
     if (node_table_to == str_map.end()) {
-        adjacency_lists.push_back({});
+        table.push_back(next);
 
-        size_t size = VerticesCount() - 1;
+        size_t size = table.size() - 1;
 
         str_map.insert({next, size});
         index_map.insert({size, next});
 
+        adjacency_lists.push_back({});
 
         index_to = size;
     } else {
@@ -114,14 +121,12 @@ WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     }
 
     Print();
-
-    //  PrintTable();
 }
 
 void WeightedListGraph::PrintTable() const {
     std::cout << "-----------Table--------" << std::endl;
-    for (auto n: index_map) {
-        std::cout << n.second << std::endl;
+    for (auto n: table) {
+        std::cout << n << std::endl;
     }
 }
 
@@ -130,21 +135,15 @@ void WeightedListGraph::Print() const {
 
     std::cout << count_edges << std::endl;
 
-    auto iter = index_map.begin();
-
     for (size_t i = 0; i < adjacency_lists.size(); ++i) {
-        auto str = iter->second;
+        auto str = table[i];
 
         for (size_t j = 0; j < adjacency_lists[i].size(); ++j) {
             auto data = adjacency_lists[i][j];
 
-            auto table_node = index_map.find(data.second)->second;
-
-            std::cout << str << " " << table_node << " " << data.first
+            std::cout << str << " " << table[data.second] << " " << data.first
                       << std::endl;
         }
-
-        ++iter;
     }
 }
 
