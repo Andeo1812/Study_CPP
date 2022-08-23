@@ -16,13 +16,3 @@ struct NodeABS {
         return os << it.data << " " << it.freq << std::endl;
     }
 };
-
-template<typename T>
-class More {
-public:
-    bool operator()(const NodeABS<T> *first, const NodeABS<T> *second) const {
-        return first->freq > second->freq;
-    }
-};
-
-const More<unsigned char> more;
