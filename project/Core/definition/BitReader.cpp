@@ -1,6 +1,15 @@
+#include <vector>
+#include <ostream>
+#include <cstddef>
+#include <bitset>
+#include <stack>
+
+#include "Node.hpp"
+
 #include "BitReader.hpp"
 
-void BitReader::GetDecodeDataZeroFreeBit(const size_t start_pos, NodeABS<byte> *root, std::vector <byte> &decode) const {
+void
+BitReader::GetDecodeDataZeroFreeBit(const size_t start_pos, NodeABS<byte> *root, std::vector <byte> &decode) const {
     NodeABS<byte> **cur = &root;
 
     size_t i = start_pos;

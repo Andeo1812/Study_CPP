@@ -1,4 +1,9 @@
 #include <vector>
+#include <istream>
+#include <iostream>
+
+#include "Core.hpp"
+#include "Utils.hpp"
 
 void run(std::istream &input, std::ostream &output) {
     byte tmp;

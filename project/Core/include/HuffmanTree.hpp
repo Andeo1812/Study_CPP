@@ -1,5 +1,9 @@
 #pragma once  //  NOLINT
 
+#include "Core.hpp"
+#include "BitWriter.hpp"
+#include "BitReader.hpp"
+
 template<typename T>
 class BinaryTreeHuffman {
     NodeABS<T> *root;

@@ -1,5 +1,11 @@
 #pragma once  //  NOLINT
 
+#include <cstddef>
+#include <ostream>
+#include <bitset>
+
+#include "Node.hpp"
+
 class BitWriter {
     std::vector <byte> buffer;
 

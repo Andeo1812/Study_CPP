@@ -1,53 +1,16 @@
-#include <iostream>
-#include <vector>
-#include <bitset>
 #include <queue>
+#include <vector>
+#include <cstddef>
 #include <map>
-#include <stack>
+#include <ostream>
 
-using byte = u_int8_t;
+#include "Node.hpp"
+#include "Core.hpp"
 
-template<typename T = byte>
-struct NodeABS {
-    T data;
-    size_t freq;
+#include "HuffmanTree.hpp"
+#include "BitReader.hpp"
 
-    NodeABS *left;
-    NodeABS *right;
-
-    NodeABS(const T &data, size_t freq = 1) : data(data), freq(freq), left(nullptr), right(nullptr) {}
-
-    friend std::ostream &operator<<(std::ostream &os, const NodeABS &it) {
-        return os << it.data << " " << it.freq << std::endl;
-    }
-};
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-template<typename T>
-class More {
-public:
-    bool operator()(const NodeABS<T> *first, const NodeABS<T> *second) const {
-        return first->freq > second->freq;
-    }
-};
-
-const More<unsigned char> more;
-
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
-void CheckInput(auto &input, auto &input_buffer, auto &min_heap) {
+void CheckInput(std::vector <byte> &input, std::vector <byte> &input_buffer, heap &min_heap) {
     std::map <byte, size_t> mapABS;
 
     for (auto data: input) {
@@ -65,7 +28,7 @@ void CheckInput(auto &input, auto &input_buffer, auto &min_heap) {
     CreateHeap(mapABS, min_heap);
 }
 
-void CreateHeap(auto &map, auto &min_heap) {
+void CreateHeap(std::map <byte, size_t> &map, heap &min_heap) {
     for (auto &data: map) {
         NodeABS<byte> *node = new NodeABS<byte>(data.first, data.second);
 
@@ -73,9 +36,7 @@ void CreateHeap(auto &map, auto &min_heap) {
     }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-void CustomEncode(auto &original, auto &compressed) {
+void CustomEncode(std::vector <byte> &original, std::vector <byte> &compressed) {
     std::vector <byte> input_buffer;
 
     std::priority_queue < NodeABS<byte> * , std::vector < NodeABS<byte> * >, decltype(more) > min_heap;
@@ -144,7 +105,7 @@ void CustomEncode(auto &original, auto &compressed) {
 //    std::cout << result << std::endl;
 }
 
-void CustomDecode(auto &compressed, auto &original) {
+void CustomDecode(std::vector <byte> &compressed, std::vector <byte> &original) {
     BitReader br(compressed);
 
     BinaryTreeHuffman<byte> tree_huffman_decode(br);
@@ -163,17 +124,4 @@ void CustomDecode(auto &compressed, auto &original) {
     auto res = tree_huffman_decode.GetDecode();
 
     original = res;
-}
-
-void AnalysisCompress(auto input_data, auto &compressed, auto &expected_data) {
-    std::cout << "Size before compress: " << input_data.size() << " bytes" << std::endl;
-    std::cout << "After compress: " << compressed.size() << " bytes" << std::endl;
-
-    std::cout << "Compression ratio - " << (double) compressed.size() / (double) input_data.size() << std::endl;
-
-    if (input_data == expected_data) {
-        std::cout << "SUCCESS" << std::endl;
-    } else {
-        std::cout << "FALSE" << std::endl;
-    }
 }

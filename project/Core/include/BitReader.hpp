@@ -1,5 +1,7 @@
 #pragma once  //  NOLINT
 
+#include "Node.hpp"
+
 class BitReader {
     std::vector <byte> buffer;
 

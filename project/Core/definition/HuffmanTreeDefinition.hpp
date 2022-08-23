@@ -1,5 +1,12 @@
 #pragma once  //  NOLINT
 
+#include <iostream>
+#include <stack>
+
+#include "Node.hpp"
+
+#include "HuffmanTree.hpp"
+
 template<typename T>
 auto BinaryTreeHuffman<T>::GetDecode() {
     if (decode.GetFreeBits() == 0) {
@@ -72,25 +79,25 @@ auto BinaryTreeHuffman<T>::GetSerTree() {
 
 template<typename T>
 BinaryTreeHuffman<T>::BinaryTreeHuffman(std::priority_queue < NodeABS<T> * , std::vector < NodeABS<T> * > ,
-decltype(more) > min_heap) {
-while (min_heap.size() > 1) {
-NodeABS<T> *left = min_heap.top();
-min_heap.pop();
+                                        decltype(more) > min_heap) {
+    while (min_heap.size() > 1) {
+        NodeABS<T> *left = min_heap.top();
+        min_heap.pop();
 
-NodeABS<T> *right = min_heap.top();
-min_heap.pop();
+        NodeABS<T> *right = min_heap.top();
+        min_heap.pop();
 
-NodeABS<T> *new_node = new NodeABS<byte>({}, left->freq + right->freq);
+        NodeABS<T> *new_node = new NodeABS<byte>({}, left->freq + right->freq);
 
-new_node->left = left;
-new_node->right = right;
+        new_node->left = left;
+        new_node->right = right;
 
-min_heap.push(new_node);
-}
+        min_heap.push(new_node);
+    }
 
-root = min_heap.top();
+    root = min_heap.top();
 
-min_heap.pop();
+    min_heap.pop();
 }
 
 template<typename T>

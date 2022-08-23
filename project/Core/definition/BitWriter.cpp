@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "BitWriter.hpp"
 
 size_t BitWriter::GetFreeBits() const {
