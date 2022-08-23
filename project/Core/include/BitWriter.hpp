@@ -6,26 +6,29 @@
 
 #include "Node.hpp"
 
+template<typename T = byte>
 class BitWriter {
-    std::vector <byte> buffer;
+    std::vector <T> buffer;
 
     size_t bit_count;
 public:
     BitWriter() : bit_count(0) {}
 
-    void WriteBit(byte bit);
+    void WriteBit(T bit);
 
-    void WriteByte(byte byte);
+    void WriteByte(T byte);
 
     void Remove(const size_t count);
 
     size_t GetFreeBits() const;
 
-    const std::vector <byte> &GetBuffer() const;
+    const std::vector <T> &GetBuffer() const;
 
     const size_t GetBitCount() const;
 
-    BitWriter &operator+=(const BitWriter &other);
+    BitWriter<T> &operator+=(const BitWriter<T> &other);
 
-    friend std::ostream &operator<<(std::ostream &out, const BitWriter &bw);
+    void Print() const;
 };
+
+#include "BitWriterDefinition.hpp"

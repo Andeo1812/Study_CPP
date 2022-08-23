@@ -1,8 +1,12 @@
+#pragma once  //  NOLINT
+
 #include <vector>
+#include <iostream>
 
 #include "BitWriter.hpp"
 
-size_t BitWriter::GetFreeBits() const {
+template<typename T>
+size_t BitWriter<T>::GetFreeBits() const {
     size_t free_bit = 8 - bit_count % 8;
     if (free_bit == 8) {
         return 0;
@@ -11,7 +15,8 @@ size_t BitWriter::GetFreeBits() const {
     }
 }
 
-BitWriter &BitWriter::operator+=(const BitWriter &other) {
+template<typename T>
+BitWriter<T> &BitWriter<T>::operator+=(const BitWriter<T> &other) {
     size_t free_pos_left = 8 - bit_count % 8;
 
     size_t free_pos_right = 8 - other.bit_count % 8;
@@ -45,7 +50,8 @@ BitWriter &BitWriter::operator+=(const BitWriter &other) {
     return *this;
 }
 
-void BitWriter::Remove(const size_t count) {
+template<typename T>
+void BitWriter<T>::Remove(const size_t count) {
     for (size_t i = 0; i < count; ++i) {
         --bit_count;
 
@@ -54,29 +60,27 @@ void BitWriter::Remove(const size_t count) {
 
 }
 
-std::ostream &operator<<(std::ostream &out, const BitWriter &bw) {
-    if (!bw.bit_count) {
-        return out;
+template<typename T>
+void BitWriter<T>::Print() const {
+    for (auto &byte: GetBuffer()) {
+        std::cout << std::bitset<8>(byte) << "|";
     }
 
-    for (auto &byte: bw.GetBuffer()) {
-        out << std::bitset<8>(byte) << "|";
-    }
-
-    out << bw.bit_count;
-
-    return out;
+    std::cout << bit_count;
 }
 
-const size_t BitWriter::GetBitCount() const {
+template<typename T>
+const size_t BitWriter<T>::GetBitCount() const {
     return bit_count;
 }
 
-const std::vector <byte> &BitWriter::GetBuffer() const {
+template<typename T>
+const std::vector <T> &BitWriter<T>::GetBuffer() const {
     return buffer;
 }
 
-void BitWriter::WriteBit(byte bit) {
+template<typename T>
+void BitWriter<T>::WriteBit(T bit) {
     if (bit_count == buffer.size() * 8) {
         buffer.push_back(0);
     }
@@ -88,7 +92,8 @@ void BitWriter::WriteBit(byte bit) {
     ++bit_count;
 }
 
-void BitWriter::WriteByte(byte byte) {
+template<typename T>
+void BitWriter<T>::WriteByte(T byte) {
     if (bit_count % 8 == 0) {
         buffer.push_back(byte);
     } else {

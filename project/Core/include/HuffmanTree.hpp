@@ -8,9 +8,9 @@ template<typename T>
 class BinaryTreeHuffman {
     NodeABS<T> *root;
 
-    std::map <T, BitWriter> table_code;
+    std::map <T, BitWriter<T>> table_code;
 
-    BitWriter ser_tree;
+    BitWriter<T> ser_tree;
 
     BitReader decode;
     size_t pos_start;
@@ -21,7 +21,7 @@ class BinaryTreeHuffman {
 
     void TraverseCreateSer(NodeABS<T> *node);
 
-    void CreateTable(NodeABS<T> *node, BitWriter bw);
+    void CreateTable(NodeABS<T> *node, BitWriter<T> bw);
 
 public:
     auto GetRoot() const { return root; }

@@ -34,7 +34,7 @@ auto BinaryTreeHuffman<T>::GetTableCode() {
 }
 
 template<typename T>
-void BinaryTreeHuffman<T>::CreateTable(NodeABS<T> *node, BitWriter bw) {
+void BinaryTreeHuffman<T>::CreateTable(NodeABS<T> *node, BitWriter<T> bw) {
     if (!node->left && !node->left) {
         table_code.insert({node->data, bw});
     } else {
