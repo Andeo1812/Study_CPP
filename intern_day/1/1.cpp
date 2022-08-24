@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
+#include <unordered_map>
 
 struct WeightedListGraph {
     ~WeightedListGraph() = default;
@@ -29,8 +29,8 @@ private:
 
     std::vector <std::string> table;
 
-    std::map <size_t, std::string> index_map;
-    std::map <std::string, size_t> str_map;
+    std::unordered_map <size_t, std::string> index_map;
+    std::unordered_map <std::string, size_t> str_map;
 
     std::vector <std::vector<std::pair <size_t, size_t>>> adjacency_lists;
 };
