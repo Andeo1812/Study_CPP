@@ -111,6 +111,9 @@ void WeightedListGraph::WorkSubstr(const std::string &first, const std::string &
 WeightedListGraph::WeightedListGraph(const std::vector <std::string> &arr_str) {
     count_edges = 0;
 
+    str_map = {};
+    index_map = {};
+
     for (const auto &str: arr_str) {
         for (size_t i = 0; i < str.size() - 3; i += 1) {
             WorkSubstr(str.substr(i, 3), str.substr(i + 1, 3));
