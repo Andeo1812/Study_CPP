@@ -3,7 +3,8 @@
 
 #include "Utils.hpp"
 
-void AnalysisCompress(std::vector <byte> input_data, std::vector <byte> &compressed, std::vector <byte> &expected_data) {
+template<typename T>
+void AnalysisCompress(std::vector <T> input_data, std::vector <T> &compressed, std::vector <T> &expected_data) {
     std::cout << "Size before compress: " << input_data.size() << " bytes" << std::endl;
     std::cout << "After compress: " << compressed.size() << " bytes" << std::endl;
 

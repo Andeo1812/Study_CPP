@@ -1,5 +1,6 @@
 #include <vector>
 #include <ostream>
+#include <iostream>
 #include <cstddef>
 #include <bitset>
 #include <stack>
@@ -8,14 +9,14 @@
 
 #include "BitReader.hpp"
 
-void
-BitReader::GetDecodeDataZeroFreeBit(const size_t start_pos, NodeABS<byte> *root, std::vector <byte> &decode) const {
-    NodeABS<byte> **cur = &root;
+template<typename T>
+void BitReader<T>::GetDecodeDataZeroFreeBit(const size_t start_pos, NodeABS<T> *root, std::vector <T> &decode) const {
+    NodeABS<T> **cur = &root;
 
     size_t i = start_pos;
 
     while (true) {
-        NodeABS<byte> &node = **cur;
+        NodeABS<T> &node = **cur;
 
         if (!node.right && !node.left) {
             decode.push_back(node.data);
@@ -39,14 +40,14 @@ BitReader::GetDecodeDataZeroFreeBit(const size_t start_pos, NodeABS<byte> *root,
     }
 }
 
-void
-BitReader::GetDecodeDataNonNullFreeBit(const size_t start_pos, NodeABS<byte> *root, std::vector <byte> &decode) const {
-    NodeABS<byte> **cur = &root;
+template<typename T>
+void BitReader<T>::GetDecodeDataNonNullFreeBit(const size_t start_pos, NodeABS<T> *root, std::vector <T> &decode) const {
+    NodeABS<T> **cur = &root;
 
     size_t i = start_pos;
 
     while (true) {
-        NodeABS<byte> &node = **cur;
+        NodeABS<T> &node = **cur;
 
         if (!node.right && !node.left) {
             decode.push_back(node.data);
@@ -70,14 +71,14 @@ BitReader::GetDecodeDataNonNullFreeBit(const size_t start_pos, NodeABS<byte> *ro
     }
 }
 
-
-size_t BitReader::GetTree(NodeABS<byte> *&root) const {
+template<typename T>
+size_t BitReader<T>::GetTree(NodeABS<T> *&root) const {
     if (free_bit == 255) {
         root = nullptr;
         return 0;
     }
 
-    std::stack < NodeABS<byte> * > s;
+    std::stack < NodeABS<T> * > s;
 
     size_t i = 8 * 2;
 
@@ -86,7 +87,7 @@ size_t BitReader::GetTree(NodeABS<byte> *&root) const {
         if ((buffer[i / 8] >> (7 - i % 8)) & 1) {
             ++i;
 
-            NodeABS<byte> *new_node = new NodeABS<byte>({});
+            NodeABS<T> *new_node = new NodeABS<T>({});
 
             for (size_t j = 0; j < 8; ++j) {
                 if ((buffer[i / 8] >> (7 - i % 8)) & 1) {
@@ -102,13 +103,13 @@ size_t BitReader::GetTree(NodeABS<byte> *&root) const {
         } else {
             ++i;
 
-            NodeABS<byte> *right = s.top();
+            NodeABS<T> *right = s.top();
             s.pop();
 
-            NodeABS<byte> *left = s.top();
+            NodeABS<T> *left = s.top();
             s.pop();
 
-            NodeABS<byte> *new_node = new NodeABS<byte>({});
+            NodeABS<T> *new_node = new NodeABS<T>({});
 
             new_node->left = left;
             new_node->right = right;
@@ -122,20 +123,21 @@ size_t BitReader::GetTree(NodeABS<byte> *&root) const {
     return i;
 }
 
-const std::vector <byte> &BitReader::GetBuffer() const {
+template<typename T>
+const std::vector <T> &BitReader<T>::GetBuffer() const {
     return buffer;
 }
 
-size_t BitReader::GetFreeBits() const {
+template<typename T>
+size_t BitReader<T>::GetFreeBits() const {
     return free_bit;
 }
 
-std::ostream &operator<<(std::ostream &out, const BitReader &br) {
-    for (auto &byte: br.GetBuffer()) {
-        out << std::bitset<8>(byte) << "|";
+template<typename T>
+void BitReader<T>::Print() const {
+    for (auto &value: GetBuffer()) {
+        std::cout << std::bitset<8>(value) << "|";
     }
 
-    out << "Count bytes " << br.GetBuffer().size();
-
-    return out;
+    std::cout  << "Count bytes " << GetBuffer().size();
 }

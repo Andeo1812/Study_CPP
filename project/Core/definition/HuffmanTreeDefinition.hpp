@@ -19,7 +19,7 @@ auto BinaryTreeHuffman<T>::GetDecode() {
 }
 
 template<typename T>
-BinaryTreeHuffman<T>::BinaryTreeHuffman(BitReader &compressed) {
+BinaryTreeHuffman<T>::BinaryTreeHuffman(BitReader<T> &compressed) {
     pos_start = compressed.GetTree(root);
 
     decode = compressed;
@@ -87,7 +87,7 @@ BinaryTreeHuffman<T>::BinaryTreeHuffman(std::priority_queue < NodeABS<T> * , std
         NodeABS<T> *right = min_heap.top();
         min_heap.pop();
 
-        NodeABS<T> *new_node = new NodeABS<byte>({}, left->freq + right->freq);
+        NodeABS<T> *new_node = new NodeABS<T>({}, left->freq + right->freq);
 
         new_node->left = left;
         new_node->right = right;

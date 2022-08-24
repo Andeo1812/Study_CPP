@@ -2,6 +2,7 @@
 
 #include "Node.hpp"
 
-void AnalysisCompress(std::vector <byte> input_data, std::vector <byte> &compressed, std::vector <byte> &expected_data);
+template<typename T = byte>
+void AnalysisCompress(std::vector <T> input_data, std::vector <T> &compressed, std::vector <T> &expected_data);
 
-
+#include "UtilsDefinition.hpp"

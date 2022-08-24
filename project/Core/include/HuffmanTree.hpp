@@ -12,7 +12,7 @@ class BinaryTreeHuffman {
 
     BitWriter<T> ser_tree;
 
-    BitReader decode;
+    BitReader<T> decode;
     size_t pos_start;
 
     size_t free_pos_bits;
@@ -38,7 +38,7 @@ public:
 
     BinaryTreeHuffman(std::priority_queue<NodeABS<T> *, std::vector < NodeABS<T> * >, decltype(more)> min_heap);
 
-    BinaryTreeHuffman(BitReader &compressed);
+    BinaryTreeHuffman(BitReader<T> &compressed);
 
     ~BinaryTreeHuffman();
 };
