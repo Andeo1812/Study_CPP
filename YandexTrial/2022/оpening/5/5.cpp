@@ -152,58 +152,58 @@ void SystemVersion::get_res_count() {
     for (size_t i = 0; i < count_rules; ++i) {
         if (rules[i].module == C) {
             if (rules[i].needed_module == B) {
-                //res_max_combination -= (max_version_A) * (rules[i].needed_version - 1) * (max_version_C - rules[i].version + 1);
+                //res_max_combination -= (max_version_A) * (rules[i].needed_version - 1.jpeg) * (max_version_C - rules[i].version + 1.jpeg);
                 /*set_block(net,
-                          1, max_version_A,
-                          1, rules[i].needed_version - 1,
+                          1.jpeg, max_version_A,
+                          1.jpeg, rules[i].needed_version - 1.jpeg,
                           rules[i].version, max_version_C);*/
 
                 set_block(net_B_C, )
             }
 
             if (rules[i].needed_module == A) {
-                //res_max_combination -= (rules[i].needed_version - 1) * (max_version_B) * (max_version_C - rules[i].version + 1);
+                //res_max_combination -= (rules[i].needed_version - 1.jpeg) * (max_version_B) * (max_version_C - rules[i].version + 1.jpeg);
                 /*set_block(net,
-                          1, rules[i].needed_version - 1,
-                          1, max_version_B,
+                          1.jpeg, rules[i].needed_version - 1.jpeg,
+                          1.jpeg, max_version_B,
                           rules[i].version, max_version_C);*/
             }
         }
 
         if (rules[i].module == A) {
             if (rules[i].needed_module == B) {
-                //res_max_combination -= (max_version_A - rules[i].version + 1) * (rules[i].needed_version - 1) * (max_version_C);
+                //res_max_combination -= (max_version_A - rules[i].version + 1.jpeg) * (rules[i].needed_version - 1.jpeg) * (max_version_C);
                 /*set_block(net,
                           rules[i].version, max_version_A,
-                          1, rules[i].needed_version - 1,
-                          1, max_version_C);*/
+                          1.jpeg, rules[i].needed_version - 1.jpeg,
+                          1.jpeg, max_version_C);*/
             }
 
             if (rules[i].needed_module == C) {
-                //res_max_combination -= (max_version_A - rules[i].version + 1) * (max_version_B) * (rules[i].needed_version - 1);
+                //res_max_combination -= (max_version_A - rules[i].version + 1.jpeg) * (max_version_B) * (rules[i].needed_version - 1.jpeg);
                 /*set_block(net,
                           rules[i].version, max_version_A,
-                          1, max_version_B,
-                          1, rules[i].needed_version - 1);*/
+                          1.jpeg, max_version_B,
+                          1.jpeg, rules[i].needed_version - 1.jpeg);*/
             }
         }
 
         if (rules[i].module == B) {
             if (rules[i].needed_module == C) {
-                //res_max_combination -= (max_version_A) * (max_version_B - rules[i].version + 1) * (rules[i].needed_version - 1);
+                //res_max_combination -= (max_version_A) * (max_version_B - rules[i].version + 1.jpeg) * (rules[i].needed_version - 1.jpeg);
                 /*set_block(net,
-                          1, max_version_A,
+                          1.jpeg, max_version_A,
                           rules[i].version, max_version_B,
-                          1, rules[i].needed_version - 1);*/
+                          1.jpeg, rules[i].needed_version - 1.jpeg);*/
 
             }
 
             if (rules[i].needed_module == A) {
-                //res_max_combination -= (rules[i].needed_version - 1) * (max_version_B - rules[i].version + 1) * (max_version_C);
+                //res_max_combination -= (rules[i].needed_version - 1.jpeg) * (max_version_B - rules[i].version + 1.jpeg) * (max_version_C);
                 /*set_block(net,
-                          1, rules[i].needed_version - 1,
+                          1.jpeg, rules[i].needed_version - 1.jpeg,
                           rules[i].version, max_version_B,
-                          1, max_version_C);*/
+                          1.jpeg, max_version_C);*/
             }
         }
     }

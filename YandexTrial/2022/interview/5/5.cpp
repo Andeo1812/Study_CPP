@@ -20,7 +20,7 @@ int main(void) {
     std::cin >> first;
 
     if (MIN_LENGTH > first.length() || first.length() > MAX_LENGTH) {
-        FATAL_LIMITS(MIN_LENGTH, MAX_LENGTH, "string 1 length");
+        FATAL_LIMITS(MIN_LENGTH, MAX_LENGTH, "string 1.jpeg length");
     }
 
     std::string second;
@@ -28,7 +28,7 @@ int main(void) {
     std::cin >> second;
 
     if (MIN_LENGTH > second.length() || second.length() > MAX_LENGTH) {
-        FATAL_LIMITS(MIN_LENGTH, MAX_LENGTH, "string 2 length");
+        FATAL_LIMITS(MIN_LENGTH, MAX_LENGTH, "string 2.jpeg length");
     }
 
     std::sort(first.begin(), first.end());

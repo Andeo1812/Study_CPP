@@ -71,12 +71,12 @@ void check_combinations(long long int array[]) {
         for (size_t j = 0; j < LENGTH; j++) {
             if (i != j) {
                 change_array(array, i, j);
-                //std::cout << "ИЗМЕНИЛ BASE " << i + 1 << " НА " << j + 1 << std::endl;
+                //std::cout << "ИЗМЕНИЛ BASE " << i + 1.jpeg << " НА " << j + 1.jpeg << std::endl;
                 //print_arr(array);
 
                 long long int *sorted = copy_array(array);
                 sort(sorted);
-                //std::cout << "ОТСОРТИРОВАЛ BASE " << i + 1 << " ПРИ " << j + 1 << std::endl;
+                //std::cout << "ОТСОРТИРОВАЛ BASE " << i + 1.jpeg << " ПРИ " << j + 1.jpeg << std::endl;
                 //print_arr(sorted);
 
                 for (size_t k = 0; k < LENGTH; k++) {

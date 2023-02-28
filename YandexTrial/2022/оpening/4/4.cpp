@@ -138,16 +138,16 @@ void Net::print(size_t** net) {
 }
 
 //  0 - white block
-//  1 - back block
-//  2 - full block
-//  3 - half block
-//  4 - 1/4 block
-//  5 - 3/4 block
+//  1.jpeg - back block
+//  2.jpeg - full block
+//  3.jpeg - half block
+//  4.jpeg - 1.jpeg/4.jpeg block
+//  5 - 3.jpeg/4.jpeg block
 
 //  direction
 //  0 - empty
-//  1 - hor
-//  2 - ver
+//  1.jpeg - hor
+//  2.jpeg - ver
 
 void Net::set_black(size_t** net, size_t start, size_t end, size_t const const_index, size_t direction) {
     size_t max = std::max(start, end);
@@ -339,10 +339,10 @@ size_t Net::check_half(size_t **net, size_t i, size_t j) {
     return 0;
 }
 
-//  2 - full block
-//  3 - half block
-//  4 - 1/4 block
-//  5 - 3/4 block
+//  2.jpeg - full block
+//  3.jpeg - half block
+//  4.jpeg - 1.jpeg/4.jpeg block
+//  5 - 3.jpeg/4.jpeg block
 
 void Net::get_res_count() {
     size_t** net = create_net();

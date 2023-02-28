@@ -30,7 +30,7 @@ Sum_cpp="${main}"
 Sum_path_hpp="${mainDir}"
 
 print_header "RUN cppcheck"
-#check_log "cppcheck ${Sum_cpp} ${Sum_hpp} --enable=all --check-config --inconclusive --error-exitcode=1 ${Sum_path_hpp} --suppress=missingIncludeSystem" "\(information\)"
+#check_log "cppcheck ${Sum_cpp} ${Sum_hpp} --enable=all --check-config --inconclusive --error-exitcode=1.jpeg ${Sum_path_hpp} --suppress=missingIncludeSystem" "\(information\)"
 
 print_header "RUN clang-tidy"
 #check_log "clang-tidy ${Sum_cpp} ${Sum_hpp} -warnings-as-errors=*  -- -x c++ ${Sum_path_hpp}" "Error (?:reading|while processing)"
